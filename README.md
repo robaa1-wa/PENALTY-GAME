@@ -1,2 +1,60 @@
-# PENALTY-GAME
-WIN BIG
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Penalty Shootout Game</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background: #0b3d91; color: white; }
+    #game { margin-top: 50px; }
+    button { padding: 10px 20px; font-size: 18px; background: #28a745; color: white; border: none; border-radius: 10px; cursor: pointer; }
+    button:hover { background: #218838; }
+    .goal, .miss { font-size: 24px; margin: 10px; }
+    .goal { color: lightgreen; }
+    .miss { color: red; }
+  </style>
+</head>
+<body>
+  <h1>Penalty Shootout</h1>
+  <div id="game">
+    <p>Click the button to take 5 shots!</p>
+    <button onclick="takeShot()">Take Shot</button>
+    <div id="result"></div>
+    <h2 id="summary"></h2>
+  </div>
+
+  <script>
+    let shots = 0;
+    let goals = 0;
+
+    function takeShot() {
+      if (shots >= 5) return;
+
+      const isGoal = Math.random() > 0.4; // 60% chance to score
+      const resultDiv = document.getElementById("result");
+      const message = document.createElement("div");
+      message.className = isGoal ? "goal" : "miss";
+      message.textContent = isGoal ? "⚽ GOAL!" : "❌ Miss...";
+      resultDiv.appendChild(message);
+
+      if (isGoal) goals++;
+      shots++;
+
+      if (shots === 5) {
+        document.querySelector("button").disabled = true;
+        showSummary();
+      }
+    }
+
+    function showSummary() {
+      let payout = 0;
+      if (goals === 5) payout = 100;
+      else if (goals === 4) payout = 50;
+      else if (goals === 3) payout = 20;
+
+      document.getElementById("summary").textContent =
+        `You scored ${goals}/5. You win: KES ${payout}`;
+    }
+  </script>
+</body>
+</html>
+
